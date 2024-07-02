@@ -1,0 +1,5 @@
+region: ca-central-1
+accountId:
+s3Bucket:
+sqsQueueName: ReportQueue
+chromiumLayerArn: arn:aws:lambda:ca-central-1:<account_id>:layer:chromium:1

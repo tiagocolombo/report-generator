@@ -1,0 +1,52 @@
+service: report-generator
+
+frameworkVersion: '3'
+
+custom:
+  stage: ${opt:stage, 'dev'}
+  config: ${file(config/${self:custom.stage}.yml)}
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ${self:custom.config.region}
+  environment:
+    S3_BUCKET: ${self:custom.config.s3Bucket}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "sqs:ReceiveMessage"
+            - "sqs:DeleteMessage"
+            - "sqs:GetQueueAttributes"
+          Resource:
+            - "arn:aws:sqs:${self:custom.config.region}:${self:custom.config.accountId}:${self:custom.config.sqsQueueName}"
+        - Effect: "Allow"
+          Action:
+            - "s3:PutObject"
+          Resource:
+            - "arn:aws:s3:::${self:custom.config.s3Bucket}/*"
+
+functions:
+  generateReport:
+    handler: handler.generateReport
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - ReportQueue
+              - Arn
+    layers:
+      - ${self:custom.config.chromiumLayerArn}
+
+resources:
+  Resources:
+    ReportQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: ${self:custom.config.sqsQueueName}
+    ReportBucket:
+      Type: "AWS::S3::Bucket"
+      Properties:
+        BucketName: ${self:custom.config.s3Bucket}

@@ -1,0 +1,7 @@
+{
+  "Records": [
+    {
+      "body": "{\"customer_id\":\"12345\",\"template\":\"ReportTemplate.html\",\"data\":{\"name\":\"John\",\"last_name\":\"Doe\"},\"format\":\"PDF\"}"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "report-generator",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "deploy-dev": "sls deploy --stage dev"
+  },
+  "keywords": [],
+  "author": "Tiago Colombo",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.606.0",
+    "@aws-sdk/client-sqs": "^3.606.0",
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/register": "^7.24.6",
+    "handlebars": "^4.7.8",
+    "preact": "^10.22.1",
+    "preact-render-to-string": "^6.5.5",
+    "puppeteer-core": "^22.12.1"
+  },
+  "devDependencies": {
+    "@sparticuz/chromium": "^123.0.1"
+  }
+}
